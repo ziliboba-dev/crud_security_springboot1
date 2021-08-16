@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit</title>
+</head>
+<body>
+<form th:method="POST" th:action="@{/admin/{id}(id=${user.getId()})}" th:object="${user}">
+    <label for="name">Enter name: </label>
+    <input type="text" th:field="*{name}" id="name"/>
+    <br/>
+    <label for="surname">Enter surname: </label>
+    <input type="text" th:field="*{surname}" id="surname">
+    <br/>
+    <label for="surname">Enter username: </label>
+    <input type="text" th:field="*{username}" id="surname">
+    <br/>
+    <label for="surname">Enter password: </label>
+    <input type="text" th:field="*{password}" id="surname">
+    <br/>
+    <input type="checkbox" id="adminId" name="adminRole" value="ROLE_ADMIN">
+    <label for="adminId">Admin</label>
+    <br/>
+    <input type="submit" value="Update!"/>
+</form>
+</body>
+</html>
