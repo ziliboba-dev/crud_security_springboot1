@@ -2,15 +2,15 @@ package com.example.crud_security_springboot1.service;
 
 import com.example.crud_security_springboot1.dao.UserRepository;
 import com.example.crud_security_springboot1.model.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class UserServiceImp implements UserService {
 
     EntityManager entityManager;
@@ -51,16 +51,8 @@ public class UserServiceImp implements UserService {
         return user;
     }
 
-    public User findByUsername(String name) {
-        return userRepository.findUserByName(name);
+    public User findByUsername(String username) {
+        return userRepository.findUserByUsername(username);
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = findByUsername(username);
-        if (user == null) {
-            throw new UsernameNotFoundException(String.format("User '%s' not found", username));
-        }
-        return user;
-    }
 }

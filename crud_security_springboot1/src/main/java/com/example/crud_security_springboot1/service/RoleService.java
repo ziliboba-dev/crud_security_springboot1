@@ -12,8 +12,6 @@ public interface RoleService {
 
     void deleteRole(Role role);
 
-//    Role getRole(String name);
-
     void saveRole(Role role);
 
     Role getRoleById(Long id);

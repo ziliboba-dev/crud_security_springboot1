@@ -21,7 +21,7 @@ public class User implements UserDetails {
     private String name;
     @Column
     private String surname;
-    @Column(name = "username", unique = true)
+    @Column(name = "username", nullable = false, unique = true)
     private String username; // уникальное значение
     @Column
     private String password;
