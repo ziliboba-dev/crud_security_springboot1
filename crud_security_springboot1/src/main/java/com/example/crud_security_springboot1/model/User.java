@@ -18,11 +18,13 @@ public class User implements UserDetails {
     @Column
     private Long id;
     @Column
-    private String name;
+    private String firstName;
     @Column
-    private String surname;
-    @Column(name = "username", nullable = false, unique = true)
-    private String username; // уникальное значение
+    private String lastName;
+    @Column(name = "email", nullable = false, unique = true)
+    private String email; // уникальное значение
+    @Column
+    private int age;
     @Column
     private String password;
 
@@ -36,13 +38,45 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(String name, String surname, String username, String password) {
-        this.name = name;
-        this.surname = surname;
-        this.username = username;
+    public User(String firstName, String lastName, String email, int age, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.age = age;
         this.password = password;
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
 
     public Long getId() {
         return id;
@@ -50,26 +84,6 @@ public class User implements UserDetails {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public void setPassword(String password) {
@@ -97,7 +111,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username;
+        return email;
     }
 
     @Override
@@ -120,16 +134,5 @@ public class User implements UserDetails {
         return true;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return id.equals(user.id) && Objects.equals(name, user.name) && Objects.equals(surname, user.surname) && username.equals(user.username) && password.equals(user.password) && Objects.equals(roles, user.roles);
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, surname, username, password, roles);
-    }
 }

@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -42,5 +43,10 @@ public class RoleServiceImp implements RoleService {
             role = optionalRole.get();
         }
         return role;
+    }
+
+    @Override
+    public Set<Role> getRolesByName(String[] names) {
+        return roleRepository.getRolesByName(names);
     }
 }

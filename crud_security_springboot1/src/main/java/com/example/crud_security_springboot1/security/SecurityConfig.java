@@ -37,8 +37,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/user/**").hasAnyRole("ADMIN", "USER")
                 .and().formLogin()
-                .and().formLogin().loginPage("/login").loginProcessingUrl("/login")
-                .passwordParameter("j_password").usernameParameter("j_username")
+//                .and().formLogin().loginPage("/login").loginProcessingUrl("/login")
+//                .passwordParameter("j_password").usernameParameter("j_username")
                 .successHandler(successUserHandler).permitAll()
                 .and().csrf().disable();
     }

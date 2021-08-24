@@ -51,8 +51,8 @@ public class UserServiceImp implements UserService {
         return user;
     }
 
-    public User findByUsername(String username) {
-        return userRepository.findUserByUsername(username);
+    public User findByUsername(String email) {
+        return userRepository.findUserByEmail(email);
     }
 
 }

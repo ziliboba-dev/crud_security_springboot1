@@ -1,7 +1,6 @@
 package com.example.crud_security_springboot1.controller;
 
 
-import com.example.crud_security_springboot1.model.Role;
 import com.example.crud_security_springboot1.model.User;
 import com.example.crud_security_springboot1.service.RoleService;
 import com.example.crud_security_springboot1.service.UserService;
@@ -11,8 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.security.Principal;
 
 @Controller
 @EnableWebMvc
@@ -29,9 +27,10 @@ public class AdminController {
 
 
     @GetMapping
-    public String index(Model model) {
+    public String index(Model model, Principal principal) {
         model.addAttribute("users", userService.getUserList());
         model.addAttribute("roles", roleService.getRolesList());
+        model.addAttribute("principalUser", userService.findByUsername(principal.getName()));
         return "index";
     }
 
@@ -47,38 +46,30 @@ public class AdminController {
         return "new";
     }
 
-    @PostMapping
+    @GetMapping("/getUserById/{id}")
+    @ResponseBody
+    public User getUserById(@PathVariable("id") long id) {
+        return userService.getUserById(id);
+    }
+
+    @PostMapping("/new")
     public String createUser
-            (@ModelAttribute("user") User user, @RequestParam(required = false) String adminRole) {
-        Set<Role> userRoles = new HashSet<>();
-        userRoles.add(roleService.getRoleById(1L));
-        if (adminRole != null && adminRole.equals(roleService.getRoleById(2L).getRole())) {
-            userRoles.add(roleService.getRoleById(2L));
-        }
-        user.setRoles(userRoles);
+            (@ModelAttribute("user") User user, @RequestParam(required = false, name = "listRoles") String[] roleNames) {
+        user.setRoles(roleService.getRolesByName(roleNames));
         userService.add(user);
         return "redirect:/admin";
     }
 
-    @GetMapping("/{id}/edit")
-    public String edit(@ModelAttribute("user") User user) {
-        return "edit";
-    }
 
-    @PostMapping ("/{id}")
-    public String update(@ModelAttribute("user") User user, @RequestParam(required = false) String adminRole) {
-        Set<Role> userRoles = new HashSet<>();
-        userRoles.add(roleService.getRoleById(1L));
-        if (adminRole != null) {
-            userRoles.add(roleService.getRoleById(2L));
-        }
-        user.setRoles(userRoles);
+    @PatchMapping ("/update")
+    public String update(@ModelAttribute("user") User user, @RequestParam(required = false, name = "listRoles") String[] roleNames) {
+        user.setRoles(roleService.getRolesByName(roleNames));
         userService.update(user);
         return "redirect:/admin";
     }
 
-    @PostMapping("/{id}/delete")
-    public String delete(@PathVariable("id") Long id) {
+    @DeleteMapping("/delete")
+    public String delete(Long id) {
         userService.delete(userService.getUserById(id));
         return "redirect:/admin";
     }
