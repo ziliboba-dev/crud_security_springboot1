@@ -5,7 +5,6 @@ import com.example.crud_security_springboot1.model.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,12 +12,10 @@ import java.util.Optional;
 @Transactional
 public class UserServiceImp implements UserService {
 
-    EntityManager entityManager;
-    UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    public UserServiceImp(UserRepository userRepository, EntityManager entityManager) {
+    public UserServiceImp(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.entityManager = entityManager;
     }
 
     @Override
